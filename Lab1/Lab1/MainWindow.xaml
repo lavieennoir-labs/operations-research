@@ -4,9 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab1"
+        xmlns:view="clr-namespace:Lab1.View.Pages"
+        xmlns:viewmodel="clr-namespace:Lab1.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Lab1" Height="525" Width="525" MinHeight="525" MinWidth="525">
+    <Window.DataContext>
+        <viewmodel:PageManager/>
+    </Window.DataContext>
+    <Window.Content>
+        <Binding Path="CurrentPage"/>
+    </Window.Content>
 </Window>

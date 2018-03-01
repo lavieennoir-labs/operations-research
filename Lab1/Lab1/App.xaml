@@ -4,6 +4,26 @@
              xmlns:local="clr-namespace:Lab1"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="CenteredText" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="TableBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="ClearReadOnly" TargetType="Control">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="IsEnabled" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Lab1.View.Controls.MenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lab1.View.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="32" d:DesignWidth="525">
+    <Menu>
+        <MenuItem Header="Навігація" Padding="4">
+            <MenuItem Header="Ввід даних"/>
+            <MenuItem Header="Канонічна форми"/>
+            <MenuItem Header="Симплекс-таблиці"/>
+        </MenuItem>
+        <MenuItem Header="Побудова таблиць" Padding="4">
+            <MenuItem>
+                <MenuItem.Header>
+                    <RadioButton Content="По кроково" IsChecked="True" />
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem>
+                <MenuItem.Header>
+                    <RadioButton Content="По таблично"/>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem>
+                <MenuItem.Header>
+                    <RadioButton Content="Миттєво"/>
+                </MenuItem.Header>
+            </MenuItem>
+        </MenuItem>
+    </Menu>
+</UserControl>
