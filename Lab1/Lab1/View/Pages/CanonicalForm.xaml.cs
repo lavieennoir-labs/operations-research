@@ -34,13 +34,12 @@ namespace Lab1.View.Pages
 
             var pageManager = Application.Current.MainWindow.DataContext as PageManager;
             pageManager.CurrentPage = new SymplexTables();
-            pageManager.CurrentPage.DataContext = new SymplexTablesViewModels()
-            {
-                SymplexTables = new ObservableCollection<SymplexTable>
-                {
-                    SymplexTable.GetFromCanonicalForm(this.DataContext as CanonicalFormViewModel)
-                }
-            };
+
+            var symplexVM = new SymplexTablesViewModels();
+            symplexVM.CountTables(
+                SymplexTable.GetFromCanonicalForm(this.DataContext as CanonicalFormViewModel));
+
+            pageManager.CurrentPage.DataContext = symplexVM;
         }
     }
 }

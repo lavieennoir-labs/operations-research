@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab1.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,38 @@ namespace Lab1.View.Pages
     /// </summary>
     public partial class SymplexTables : Page
     {
+
         public SymplexTables()
         {
             InitializeComponent();
+        }
+
+        private void ButtonFirst_Click(object sender, RoutedEventArgs e)
+        {
+            var dc = DataContext as SymplexTablesViewModels;
+            dc.CurrentTableIdx = 0;
+            DataContext = dc;
+        }
+
+        private void ButtonLast_Click(object sender, RoutedEventArgs e)
+        {
+            var dc = DataContext as SymplexTablesViewModels;
+            dc.CurrentTableIdx = dc.SymplexTables.Count() - 1;
+            DataContext = dc;
+        }
+
+        private void ButtonPrev_Click(object sender, RoutedEventArgs e)
+        {
+            var dc = DataContext as SymplexTablesViewModels;
+            dc.CurrentTableIdx --;
+            DataContext = dc;
+        }
+
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+            var dc = DataContext as SymplexTablesViewModels;
+            dc.CurrentTableIdx++;
+            DataContext = dc;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Lab1.Model;
+using Lab1.View.Pages;
+using Lab1.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,47 @@ namespace Lab1.View.Controls
         public MenuControl()
         {
             InitializeComponent();
+        }
+
+        private void MenuItemInput_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow.DataContext as PageManager).CurrentPage = new Input();
+        }
+
+        private void MenuItemCanon_Click(object sender, RoutedEventArgs e)
+        {
+            var pm = (Application.Current.MainWindow.DataContext as PageManager);
+            if(pm.CurrentPage.GetType().Equals(typeof(Input)))
+            {
+                pm.CurrentPage = new CanonicalForm();
+                pm.CurrentPage.DataContext = new CanonicalFormConverter().Convert(pm.CurrentPage.DataContext as InputViewModel);
+            }
+            else
+                pm.CurrentPage = new CanonicalForm();
+
+        }
+
+        private void MenuItemSymplex_Click(object sender, RoutedEventArgs e)
+        {
+            var pm = (Application.Current.MainWindow.DataContext as PageManager);
+            if (pm.CurrentPage.GetType().Equals(typeof(Input)))
+            {
+                var canonicalForm = new CanonicalFormConverter().Convert(pm.CurrentPage.DataContext as InputViewModel);
+
+                var symplexVM = new SymplexTablesViewModels();
+                symplexVM.CountTables(
+                    SymplexTable.GetFromCanonicalForm(canonicalForm));
+
+                pm.CurrentPage.DataContext = symplexVM;
+            }
+            else if(pm.CurrentPage.GetType().Equals(typeof(CanonicalForm)))
+            {
+                var symplexVM = new SymplexTablesViewModels();
+                symplexVM.CountTables(
+                    SymplexTable.GetFromCanonicalForm(pm.CurrentPage.DataContext as CanonicalFormViewModel));
+            
+                pm.CurrentPage.DataContext = symplexVM;
+            }
         }
     }
 }

@@ -38,12 +38,14 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Сировина" Margin="8,8,8,0"
+                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Text="Сировина" Margin="8,8,8,0"
                        Style="{StaticResource CenteredText}"/>
-                    <Border Grid.Column="0" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1">
+                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -53,9 +55,9 @@
                             <TextBlock Grid.Row="1" Text="Надходження" Style="{StaticResource CenteredText}"/>
                         </Grid>
                     </Border>
-                    <ScrollViewer Grid.Column="1" Grid.Row="1"
+                    <ScrollViewer Grid.Column="2" Grid.Row="1" Width="auto"
                               VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-                        <ListView ItemsSource="{Binding Raw}">
+                        <ListView ItemsSource="{Binding Raw}" Width="auto">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal" />
@@ -82,12 +84,14 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Вироби" Margin="8,8,8,0"
+                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Text="Вироби" Margin="8,8,8,0"
                        Style="{StaticResource CenteredText}"/>
-                    <Border Grid.Column="0" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1">
+                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -97,7 +101,7 @@
                             <TextBlock Grid.Row="1" Text="Прибуток" Style="{StaticResource CenteredText}"/>
                         </Grid>
                     </Border>
-                    <ScrollViewer Grid.Column="1" Grid.Row="1"
+                    <ScrollViewer Grid.Column="2" Grid.Row="1"
                               VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                         <ListView ItemsSource="{Binding Products}">
                             <ListView.ItemsPanel>

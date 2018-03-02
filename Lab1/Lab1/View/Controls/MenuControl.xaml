@@ -8,11 +8,11 @@
              d:DesignHeight="32" d:DesignWidth="525">
     <Menu>
         <MenuItem Header="Навігація" Padding="4">
-            <MenuItem Header="Ввід даних"/>
-            <MenuItem Header="Канонічна форми"/>
-            <MenuItem Header="Симплекс-таблиці"/>
+            <MenuItem Header="Ввід даних" Click="MenuItemInput_Click"/>
+            <MenuItem Header="Канонічна форми" Click="MenuItemCanon_Click"/>
+            <MenuItem Header="Симплекс-таблиці" Click="MenuItemSymplex_Click"/>
         </MenuItem>
-        <MenuItem Header="Побудова таблиць" Padding="4">
+        <!--<MenuItem Header="Побудова таблиць" Padding="4">
             <MenuItem>
                 <MenuItem.Header>
                     <RadioButton Content="По кроково" IsChecked="True" />
@@ -28,6 +28,6 @@
                     <RadioButton Content="Миттєво"/>
                 </MenuItem.Header>
             </MenuItem>
-        </MenuItem>
+        </MenuItem>-->
     </Menu>
 </UserControl>

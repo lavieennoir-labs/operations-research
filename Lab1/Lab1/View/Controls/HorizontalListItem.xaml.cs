@@ -48,13 +48,29 @@ namespace Lab1.View.Controls
 
         static bool IsValidReading(object value)
         {
-            Double v = (Double)value;
+            if (!Double.TryParse(value.ToString(), out double v))
+                return false;
             return !v.Equals(Double.NegativeInfinity) && !v.Equals(Double.PositiveInfinity) && v >= 0;
         }
 
         public HorizontalListItem()
         {
             InitializeComponent();
+        }
+        
+        double tmp;
+
+        private void text_GotFocus(object sender, RoutedEventArgs e)
+        {
+            tmp = Double.Parse(text.Text);
+        }
+
+        private void text_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!IsValidReading(text.Text))
+                text.Text = tmp.ToString();
+            else
+                tmp = Double.Parse(text.Text);
         }
     }
 }
