@@ -29,30 +29,26 @@ namespace Lab1.View.Pages
 
         private void ButtonFirst_Click(object sender, RoutedEventArgs e)
         {
-            var dc = DataContext as SymplexTablesViewModels;
+            var dc = ((Button)sender).DataContext as SymplexTablesViewModels;
             dc.CurrentTableIdx = 0;
-            DataContext = dc;
         }
 
         private void ButtonLast_Click(object sender, RoutedEventArgs e)
         {
-            var dc = DataContext as SymplexTablesViewModels;
+            var dc = ((Button)sender).DataContext as SymplexTablesViewModels;
             dc.CurrentTableIdx = dc.SymplexTables.Count() - 1;
-            DataContext = dc;
         }
 
         private void ButtonPrev_Click(object sender, RoutedEventArgs e)
         {
-            var dc = DataContext as SymplexTablesViewModels;
+            var dc = ((Button)sender).DataContext as SymplexTablesViewModels;
             dc.CurrentTableIdx --;
-            DataContext = dc;
         }
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
         {
-            var dc = DataContext as SymplexTablesViewModels;
+            var dc = ((Button)sender).DataContext as SymplexTablesViewModels;
             dc.CurrentTableIdx++;
-            DataContext = dc;
         }
     }
 }

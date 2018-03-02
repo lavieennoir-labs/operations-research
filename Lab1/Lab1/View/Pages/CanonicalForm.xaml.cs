@@ -31,14 +31,24 @@ namespace Lab1.View.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //move canoniical form to symplex table
-
             var pageManager = Application.Current.MainWindow.DataContext as PageManager;
-            pageManager.CurrentPage = new SymplexTables();
 
             var symplexVM = new SymplexTablesViewModels();
-            symplexVM.CountTables(
-                SymplexTable.GetFromCanonicalForm(this.DataContext as CanonicalFormViewModel));
+            try
+            {
+                symplexVM.CountTables(
+                    SymplexTable.GetFromCanonicalForm(this.DataContext as CanonicalFormViewModel));
 
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Оптимальний план не існує для таких вхідних даних.",
+                        "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                pageManager.CurrentPage = new Input();
+                return;
+            }
+
+            pageManager.CurrentPage = new SymplexTables();
             pageManager.CurrentPage.DataContext = symplexVM;
         }
     }

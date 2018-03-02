@@ -41,7 +41,7 @@
                       HorizontalAlignment="Center" VerticalAlignment="Center"
                       CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False"
                       CanUserResizeRows="False" CanUserSortColumns="False"/>
-            <Grid Grid.Row="3"  HorizontalAlignment="Center" Margin="0,16,0,0">
+            <Grid Grid.Row="3"  HorizontalAlignment="Center" Margin="0,16,0,0" Visibility="{Binding CurrentTableIsNotLast, Converter={StaticResource BoolToVisConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
@@ -54,6 +54,14 @@
                 <TextBlock Grid.Column="1" Text="{Binding MainColumn}" FontSize="14"/>
                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Головний рядок має базис " FontSize="14"/>
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding MainRow}" FontSize="14"/>
+            </Grid>
+            <Grid Grid.Row="3"  HorizontalAlignment="Center" Margin="0,16,0,0" Visibility="{Binding CurrentTableIsLast, Converter={StaticResource BoolToVisConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Результат: " FontSize="16" TextAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="{Binding ResultText}" TextWrapping="Wrap" TextAlignment="Justify" Margin="64,8" FontSize="16"/>
             </Grid>
             <Grid Grid.Row="4" Margin="0,16">
                     <Grid.ColumnDefinitions>

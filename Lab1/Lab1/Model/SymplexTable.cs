@@ -1,9 +1,11 @@
-﻿using Lab1.ViewModel;
+﻿using Lab1.View.Pages;
+using Lab1.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Lab1.Model
 {
@@ -12,17 +14,17 @@ namespace Lab1.Model
         public static SymplexTable GetFromCanonicalForm(CanonicalFormViewModel canonicalForm)
         {
             var table = new SymplexTable()
-            {
-                B = canonicalForm.FreeMembers,
-                A = canonicalForm.Matrix,
-                Basis = Enumerable.Range(
-                    canonicalForm.Matrix.GetLength(1) - canonicalForm.Matrix.GetLength(0),
-                    canonicalForm.Matrix.GetLength(0)).ToArray(),
-                MarkingRelations = new double[canonicalForm.FreeMembers.Length]
-            };
-            table.MainCol = table.GetMainCol();
-            table.UpdateMarkingRelations();
-            table.MainRow = table.GetMainRow();
+                {
+                    B = canonicalForm.FreeMembers,
+                    A = canonicalForm.Matrix,
+                    Basis = Enumerable.Range(
+                        canonicalForm.Matrix.GetLength(1) - canonicalForm.Matrix.GetLength(0),
+                        canonicalForm.Matrix.GetLength(0)).ToArray(),
+                    MarkingRelations = new double[canonicalForm.FreeMembers.Length]
+                };
+                table.MainCol = table.GetMainCol();
+                table.UpdateMarkingRelations();
+                table.MainRow = table.GetMainRow();
             return table;
         }
 
@@ -73,7 +75,7 @@ namespace Lab1.Model
 
                 for (int i = 0; i < B.Length; i++)
                     for (int j = 2; j < table.GetLength(1) - 1; j++)
-                        table[i, j] = A[i, j - 2].ToString();
+                        table[i, j] = A[i, j - 2].ToString("N2");
 
             return table;
             }
@@ -84,12 +86,13 @@ namespace Lab1.Model
             double min = Double.MaxValue;
             int minIdx = -1;
             //search lowest negative coef
-            for(int i = 0; i < A.GetLength(1); i++)
+            for(int i = 0; i < A.GetLength(1) - A.GetLength(0); i++)
                 if(min > A[B.Length - 1,i])
                 {
                     min = A[B.Length - 1, i];
                     minIdx = i;
                 }
+            if (minIdx == -1) throw new InvalidOperationException("There no optimal plan for input data.");
             return minIdx;
         }
 
@@ -104,6 +107,7 @@ namespace Lab1.Model
                     min = MarkingRelations[i];
                     minIdx = i;
                 }
+            if (minIdx == -1) throw new InvalidOperationException("There no optimal plan for input data.");
             return minIdx;
         }
 
@@ -113,7 +117,7 @@ namespace Lab1.Model
         public void UpdateMarkingRelations()
         {
             for (int i = 0; i < B.Length; i++)
-                MarkingRelations[i] = A[i, MainCol] == 0 ? Double.PositiveInfinity : B[i] / A[i, MainCol];
+                MarkingRelations[i] = A[i, MainCol] - 0 < 0.0001 ? Double.PositiveInfinity : B[i] / A[i, MainCol];
         }
 
         /// <summary>
@@ -127,27 +131,30 @@ namespace Lab1.Model
         public void ApplyRectangleRule(SymplexTable old)
         {
             //cahnge basis
-            Basis[MainRow] = MainCol;
+            Basis[MainRow] = old.MainCol;
             //handle main col
             for (int i = 0; i < B.Length; i++)
-                if (i != MainRow)
-                    A[i, MainCol] = 0;
+                if (i != old.MainRow)
+                    A[i, old.MainCol] = 0;
+
             //handle main row        
             for (int i = 0; i < A.GetLength(1); i++)
-                A[MainRow, i] = old.A[MainRow, i] / old.A[MainRow, MainCol];
-            B[MainRow] = old.B[MainRow] / old.A[MainRow, MainCol];
+                if (i == old.MainCol)
+                    A[old.MainRow, i] = 1;
+                else
+                    A[old.MainRow, i] = old.A[old.MainRow, i] / old.A[old.MainRow, old.MainCol];
+            B[old.MainRow] = old.B[old.MainRow] / old.A[old.MainRow, old.MainCol];
             //other coefs
             for (int i = 0; i < B.Length; i++)
             {
-                if (i == MainRow) continue;
-                B[i] = old.B[i] - old.A[i, MainCol] * old.B[MainRow] / old.A[MainRow, MainCol];
+                if (i == old.MainRow) continue;
+                B[i] = old.B[i] - old.A[i, old.MainCol] * old.B[old.MainRow] / old.A[old.MainRow, old.MainCol];
                 for (int j = 0; j < A.GetLength(1); j++)
-                    if (j != MainCol)
-                        A[i, j] = old.A[i, j] - old.A[i, MainCol] * old.A[MainRow, j] / old.A[MainRow, MainCol];
+                    if (j != old.MainCol)
+                        A[i, j] = old.A[i, j] - old.A[i, old.MainCol] * old.A[old.MainRow, j] / old.A[old.MainRow, old.MainCol];
             }
 
         }
-
 
         public SymplexTable Clone()
         {

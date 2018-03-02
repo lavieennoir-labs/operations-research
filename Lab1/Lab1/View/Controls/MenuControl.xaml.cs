@@ -36,13 +36,20 @@ namespace Lab1.View.Controls
         private void MenuItemCanon_Click(object sender, RoutedEventArgs e)
         {
             var pm = (Application.Current.MainWindow.DataContext as PageManager);
-            if(pm.CurrentPage.GetType().Equals(typeof(Input)))
+            if (pm.CurrentPage.GetType().Equals(typeof(Input)))
             {
-                pm.CurrentPage = new CanonicalForm();
-                pm.CurrentPage.DataContext = new CanonicalFormConverter().Convert(pm.CurrentPage.DataContext as InputViewModel);
+                pm.CurrentPage = new CanonicalForm()
+                {
+                    DataContext = new CanonicalFormConverter().Convert(pm.CurrentPage.DataContext as InputViewModel)
+                };
             }
             else
-                pm.CurrentPage = new CanonicalForm();
+            {
+                pm.CurrentPage = new CanonicalForm()
+                {
+                    DataContext = new CanonicalFormConverter().Convert(new InputViewModel())
+                };
+            }
 
         }
 
@@ -54,18 +61,60 @@ namespace Lab1.View.Controls
                 var canonicalForm = new CanonicalFormConverter().Convert(pm.CurrentPage.DataContext as InputViewModel);
 
                 var symplexVM = new SymplexTablesViewModels();
-                symplexVM.CountTables(
-                    SymplexTable.GetFromCanonicalForm(canonicalForm));
-
-                pm.CurrentPage.DataContext = symplexVM;
+                try
+                {
+                    symplexVM.CountTables(
+                        SymplexTable.GetFromCanonicalForm(canonicalForm));
+                }
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Оптимальний план не існує для таких вхідних даних.", 
+                        "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    pm.CurrentPage = new Input();
+                    return;
+                }
+                try
+                {
+                    pm.CurrentPage = new SymplexTables()
+                    {
+                        DataContext = symplexVM
+                    };
+                }
+                catch
+                {
+                    MessageBox.Show("Оптимальний план не існує для таких вхідних даних.",
+                        "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    pm.CurrentPage = new Input();
+                    return;
+                }
             }
             else if(pm.CurrentPage.GetType().Equals(typeof(CanonicalForm)))
             {
                 var symplexVM = new SymplexTablesViewModels();
-                symplexVM.CountTables(
-                    SymplexTable.GetFromCanonicalForm(pm.CurrentPage.DataContext as CanonicalFormViewModel));
-            
-                pm.CurrentPage.DataContext = symplexVM;
+                try
+                {
+                    symplexVM.CountTables(
+                        SymplexTable.GetFromCanonicalForm(pm.CurrentPage.DataContext as CanonicalFormViewModel));
+                }
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Оптимальний план не існує для таких вхідних даних.",
+                        "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    pm.CurrentPage = new Input();
+                    return;
+                }
+                try
+                {
+                    pm.CurrentPage = new SymplexTables();
+                    pm.CurrentPage.DataContext = symplexVM;
+                }
+                catch
+                {
+                    MessageBox.Show("Оптимальний план не існує для таких вхідних даних.",
+                        "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    pm.CurrentPage = new Input();
+                    return;
+                }
             }
         }
     }

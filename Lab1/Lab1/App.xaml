@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Lab1"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
         <Style x:Key="CenteredText" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
