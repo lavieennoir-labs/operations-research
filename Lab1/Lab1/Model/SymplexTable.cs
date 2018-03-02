@@ -96,20 +96,6 @@ namespace Lab1.Model
             return minIdx;
         }
 
-        public int GetMainRow()
-        {
-            double min = Double.MaxValue;
-            int minIdx = -1;
-            //search lowest Marking relation
-            for (int i = 0; i < MarkingRelations.Length-1; i++)
-                if (min > MarkingRelations[i])
-                {
-                    min = MarkingRelations[i];
-                    minIdx = i;
-                }
-            if (minIdx == -1) throw new InvalidOperationException("There no optimal plan for input data.");
-            return minIdx;
-        }
 
         /// <summary>
         /// Caclulate marking relations based on main row
@@ -120,12 +106,20 @@ namespace Lab1.Model
                 MarkingRelations[i] = A[i, MainCol] - 0 < 0.0001 ? Double.PositiveInfinity : B[i] / A[i, MainCol];
         }
 
-        /// <summary>
-        /// Check wether current plan is optimal
-        /// </summary>
-        public bool IsOptimalPlan()
+
+        public int GetMainRow()
         {
-            return A[B.Length - 1, GetMainCol()] >= 0;
+            double min = Double.MaxValue;
+            int minIdx = -1;
+            //search lowest Marking relation
+            for (int i = 0; i < MarkingRelations.Length - 1; i++)
+                if (min > MarkingRelations[i])
+                {
+                    min = MarkingRelations[i];
+                    minIdx = i;
+                }
+            if (minIdx == -1) throw new InvalidOperationException("There no optimal plan for input data.");
+            return minIdx;
         }
 
         public void ApplyRectangleRule(SymplexTable old)
@@ -155,6 +149,16 @@ namespace Lab1.Model
             }
 
         }
+
+        /// <summary>
+        /// Check wether current plan is optimal
+        /// </summary>
+        public bool IsOptimalPlan()
+        {
+            return A[B.Length - 1, GetMainCol()] >= 0;
+        }
+
+        
 
         public SymplexTable Clone()
         {
