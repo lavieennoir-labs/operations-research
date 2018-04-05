@@ -12,28 +12,28 @@ namespace Lab1.Model
         public CanonicalFormViewModel Convert(InputViewModel input)
         {
             //create matrix for holding equastion members
-            double[,] matrix = new double[input.RawCount + 1, input.RawCount + input.ProductCount  + 1];
+            double[,] matrix = new double[input.LimitCount + 1, input.LimitCount + input.VarCount  + 1];
 
             //fill coefs
-            for (int i = 0; i < input.RawCount; i++)
-                for (int j = 0; j < input.ProductCount; j++)
-                    matrix[i, j] = input.ProductCost[i][j];
+            for (int i = 0; i < input.LimitCount; i++)
+                for (int j = 0; j < input.VarCount; j++)
+                    matrix[i, j] = input.Coefs[i][j];
             //fill extra variables
-            for (int i = 0; i < input.RawCount; i++)
-                matrix[i, i + input.ProductCount] = 1;
+            for (int i = 0; i < input.LimitCount; i++)
+                matrix[i, i + input.VarCount] = 1;
             //fill profit coefs
-            for (int i = 0; i < input.ProductCount; i++)
-                matrix[input.RawCount, i] = -input.Products[i].Value;
+            for (int i = 0; i < input.VarCount; i++)
+                matrix[input.LimitCount, i] = -input.Limits[i];
             //take last koef as F
-            matrix[input.RawCount, input.RawCount + input.ProductCount] = 1;
+            matrix[input.LimitCount, input.LimitCount + input.VarCount] = 1;
 
 
 
             //create matrix for holding free members
-            double[] freeMembers = new double[input.RawCount + 1];
+            double[] freeMembers = new double[input.LimitCount + 1];
             //fill free members
-            for (int i = 0; i < input.RawCount; i++)
-                freeMembers[i] = input.Raw[i].Value;
+            for (int i = 0; i < input.LimitCount; i++)
+                freeMembers[i] = input.Limits[i];
 
 
             return new CanonicalFormViewModel

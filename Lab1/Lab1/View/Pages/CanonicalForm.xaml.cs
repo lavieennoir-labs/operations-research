@@ -40,9 +40,9 @@ namespace Lab1.View.Pages
                     SymplexTable.GetFromCanonicalForm(this.DataContext as CanonicalFormViewModel));
 
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException exc)
             {
-                MessageBox.Show("Оптимальний план не існує для таких вхідних даних.",
+                MessageBox.Show("Оптимальний план не існує для таких вхідних даних. " + exc.Message,
                         "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 pageManager.CurrentPage = new Input();
                 return;

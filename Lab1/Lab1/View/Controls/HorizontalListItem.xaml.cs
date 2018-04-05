@@ -48,9 +48,10 @@ namespace Lab1.View.Controls
 
         static bool IsValidReading(object value)
         {
-            if (!Double.TryParse(value.ToString(), out double v))
-                return false;
-            return !v.Equals(Double.NegativeInfinity) && !v.Equals(Double.PositiveInfinity) && v >= 0;
+            return true;
+            //if (!Double.TryParse(value.ToString(), out double v))
+            //    return false;
+            //return !v.Equals(Double.NegativeInfinity) && !v.Equals(Double.PositiveInfinity) && v >= 0;
         }
 
         public HorizontalListItem()

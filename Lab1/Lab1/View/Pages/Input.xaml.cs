@@ -37,25 +37,34 @@ namespace Lab1.View.Pages
             pageManager.CurrentPage.DataContext = canonicalForm;
         }
 
-        private void matrix_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            var tb = (e.EditingElement as TextBox);
-            if (!IsValidReading(tb.Text))
-                tb.Text = tmp.ToString();
-        }
+        //private void matrix_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        //{
+        //    var tb = (e.EditingElement as TextBox);
+        //    if (!IsValidReading(tb.Text))
+        //        tb.Text = tmp.ToString();
+        //}
 
         bool IsValidReading(string value)
         {
-            if (!Double.TryParse(value, out Double v))
-                return false;
-            return !v.Equals(Double.NegativeInfinity) && !v.Equals(Double.PositiveInfinity) && v >= 0;
+            return true;
+            //if (!Double.TryParse(value, out Double v))
+            //    return false;
+            //return !v.Equals(Double.NegativeInfinity) && !v.Equals(Double.PositiveInfinity) && v >= 0;
         }
 
-        private void matrix_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            var m = (DataContext as InputViewModel).ProductCost;
-            tmp = m[matrix.SelectedIndex][e.Column.DisplayIndex];
-        }
+        //private void matrix_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        //{
+        //    var m = (DataContext as InputViewModel).Coefs;
+        //    tmp = m[InputTable.CoefGrid.SelectedIndex][e.Column.DisplayIndex];
+        //}
         double tmp;
+
+        //private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (sender is ListView listView)
+        //    {
+        //        listView.SelectedIndex = -1;
+        //    }
+        //}
     }
 }
