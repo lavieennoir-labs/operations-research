@@ -1,0 +1,17 @@
+﻿<Application x:Class="Lab3.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:Lab3"
+             xmlns:model="clr-namespace:Lab3.Model"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ObjectDataProvider x:Key="basicPlanEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:BasicPlan"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <model:EnumDescriptionConverter x:Key="enumDescConverter"/>
+    </Application.Resources>
+</Application>
