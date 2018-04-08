@@ -1,0 +1,94 @@
+﻿<Page x:Class="Lab3.View.Page.Result"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Lab3.View.Page"
+      xmlns:viewmodel="clr-namespace:Lab3.ViewModel"
+      xmlns:dataGrid2D="http://gu.se/DataGrid2D"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Result">
+    <Page.DataContext>
+        <viewmodel:ResultTables/>
+    </Page.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Content="Назад"
+                HorizontalAlignment="Left" Margin="24" Click="Button_Click_2" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="24, 8">
+            <TextBlock Text="Таблиця #" FontSize="20" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=TableNum}" VerticalAlignment="Center" FontSize="20" Margin="8"/>
+        </StackPanel>
+        <Grid Grid.Row="2" Grid.RowSpan="1" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Вартість" HorizontalAlignment="Center" Margin="8"/>
+            <DataGrid Name="CostGrid" Grid.Row="1" Margin="8"
+                        HorizontalAlignment="Center"
+                        HeadersVisibility="None"
+                        dataGrid2D:ItemsSource.RowsSource = "{Binding Path=CurrentCost}"
+                        CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"/>
+            
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Перевезення" HorizontalAlignment="Center" Margin="8"/>
+            <DataGrid Name="CurrentGrid" Grid.Row="1" Grid.Column="1" Margin="8"
+                        HorizontalAlignment="Center"
+                        HeadersVisibility="None"
+                        dataGrid2D:ItemsSource.RowsSource = "{Binding Path=CurrentTable}"
+                        CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Надлишок"  HorizontalAlignment="Center" Margin="8"/>
+            <DataGrid Name="RawGrid" Grid.Row="1" Grid.Column="2" Margin="8"
+                        HeadersVisibility="None"
+                        HorizontalAlignment="Center"
+                        ItemsSource = "{Binding Path=CurrentRawPotential}"
+                        CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="True"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Різниця"  HorizontalAlignment="Center" Margin="8"/>
+            <DataGrid Name="NeedGrid" Grid.Row="1" Grid.Column="3" Margin="8"
+                        HorizontalAlignment="Center"
+                        HeadersVisibility="None"
+                        ItemsSource = "{Binding Path=CurrentNeedPotential}"
+                        CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"/>
+
+        </Grid>
+       
+        <Grid Grid.Row="3" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="8">
+                <TextBlock Text="Обрані тарифи:" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Path=CurrentTarif}" VerticalAlignment="Center" Margin="8"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="8">
+                <TextBlock Text="Сума = " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Path=TotalSum}" VerticalAlignment="Center" Margin="8"/>
+            </StackPanel>
+        </Grid>
+        <Button Grid.Row="4" Content="&lt;" FontSize="20" Width="30" Height="30"
+                HorizontalAlignment="Left" Margin="24" Click="Button_Click" />
+        <Button Grid.Row="4" Content="&gt;" FontSize="20" Width="30" Height="30"
+                HorizontalAlignment="Right" Margin="24" Click="Button_Click_1" />
+    </Grid>
+</Page>
