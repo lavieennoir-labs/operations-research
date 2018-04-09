@@ -61,29 +61,29 @@ namespace Lab3.ViewModel
             NeedCount = 5;
             Raws = new ObservableCollection<DoubleWrapper>
             {
-                100, 250, 200, 300
+                100, 160, 220, 220
             };
             Needs = new ObservableCollection<DoubleWrapper>
             {
-                200, 200, 100, 100, 250
+                100, 200, 120, 180, 150
             };
             Cost = new ObservableCollection<ObservableCollection<DoubleWrapper>>
             {
                 new ObservableCollection<DoubleWrapper>
                 {
-                    10, 7, 4, 1, 4
+                    11, 14, 1, 1, 2
                 },
                 new ObservableCollection<DoubleWrapper>
                 {
-                    2, 7, 10, 6, 11
+                    1, 13, 14, 2, 10
                 },
                 new ObservableCollection<DoubleWrapper>
                 {
-                    8, 5, 3, 2, 2
+                    14, 14, 1, 12, 10
                 },
                 new ObservableCollection<DoubleWrapper>
                 {
-                    11, 8, 12, 16, 13
+                    11, 4, 12, 14, 11
                 }
             };
         }
@@ -119,7 +119,7 @@ namespace Lab3.ViewModel
 
         public TransportTaskInput()
         {
-            GenerateMyInput();
+            GenerateTestInput();
         }
     }
 }

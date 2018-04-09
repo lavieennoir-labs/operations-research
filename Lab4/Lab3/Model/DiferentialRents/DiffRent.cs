@@ -54,6 +54,9 @@ namespace Lab3.Model.DiferentialRents
 
         public bool IsOptimalSolution()
         {
+            if (Renta != null &&
+                Renta.Min().Equals(Double.PositiveInfinity))
+                return true;
             for (int i = 0; i < NeedCount; i++)
                 if (Need[i] > 0)
                     return false;
@@ -212,7 +215,15 @@ namespace Lab3.Model.DiferentialRents
             //fill MinimalTarifs
             for (int i = 0; i < NeedCount; i++)
             {
-                    MinimalTarifs.AddRange(minCosts[i].OrderBy(cell => cell.i));
+                //order minCosts[i] by count of selected tarifs in row
+                MinimalTarifs.AddRange(minCosts[i].OrderBy(cell => cell.i));
+                //{
+                //    var allCosts = new List<TableCell>();
+                //    for (int j = 0; j < minCosts.Count(); j++)
+                //        if(j != i)
+                //            allCosts.AddRange(minCosts[j]);
+                //    return allCosts.Where(c => c.i == cell.i).Count();
+                //}));
                  
             }
             ////sort MinimalTarifs from old values to new
