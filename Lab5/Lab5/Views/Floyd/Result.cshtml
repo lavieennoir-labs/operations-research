@@ -1,0 +1,155 @@
+﻿@model Lab5.Models.FloydResultModel
+@{
+    ViewBag.Title = "Результати";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2>@ViewBag.Title</h2>
+        <hr />
+        <h4>
+            @if(Model.CurrentStage == 0)
+            {
+                @("Стартові значення")
+            }
+            else
+            {
+                @("Поточна вершина ")@(Model.CurrentStage)
+            }
+        </h4>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Матриця мінімальних відстаней</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="dist">
+                    <tr>
+                        <th></th>
+                        @for (int i = 0; i < Model.DistTable.GetLength(0); i++)
+                        {
+                            <th>@(i + 1)</th>
+                        }
+                    </tr>
+                    @for (int i = 0; i < Model.DistTable.GetLength(0); i++)
+                    {
+                    <tr>
+                        <th>@(i + 1)</th>
+                        @for (int j = 0; j < Model.DistTable.GetLength(1); j++)
+                        {
+                            <td>
+                                @if(Double.IsNaN(Model.DistTable[i, j]))
+                                {
+                                    @("-")
+                                }
+                                else
+                                {                                    
+                                    @Model.DistTable[i, j]
+                                }
+                            </td>
+                        }
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Матриця шляхів</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="path">
+                    <tr>
+                        <th></th>
+                        @for (int i = 0; i < Model.PathTable.GetLength(0); i++)
+                        {
+                            <th>@(i + 1)</th>
+                        }
+                    </tr>
+                    @for (int i = 0; i < Model.PathTable.GetLength(0); i++)
+                    {
+                    <tr>
+                        <th @*style="width: 30%;"*@>@(i + 1)</th>
+                        @for (int j = 0; j < Model.PathTable.GetLength(1); j++)
+                        {
+                            <td>
+                                @if(Model.PathTable[i, j] == -1)
+                                {
+                                    @("-")
+                                }
+                                else
+                                {                                    
+                                    @(Model.PathTable[i, j] + 1)
+                                }
+                            </td>
+                        }
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <nav aria-label="..." style="justify-content: center; align-items: center; display: flex;">
+        <ul class="pagination">
+            @if(Model.CurrentStage == 0)
+            {
+                <li class="disabled">
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("Result", routeValues: new {
+                            currentStage = Model.CurrentStage - 1
+                        })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+
+            @for (int i = 0; i < Model.StageCount; i++)
+            {
+                if(Model.CurrentStage == i)
+                {
+                    <li class="active">
+                        <a href="#">@(i + 1) <span class="sr-only">(current)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Result", routeValues: new {
+                            currentStage = i
+                        })">@(i + 1)</a></li>
+                }
+            }
+             
+
+            @if (Model.CurrentStage == Model.StageCount - 1)
+            {
+                <li class="disabled">
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("Result", routeValues: new {
+                            currentStage = Model.CurrentStage + 1
+                        })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+

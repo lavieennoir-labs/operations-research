@@ -119,7 +119,7 @@ namespace Lab3.ViewModel
 
         public TransportTaskInput()
         {
-            GenerateTestInput();
+            GenerateMyInput();
         }
     }
 }
