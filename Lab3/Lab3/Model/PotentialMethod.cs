@@ -25,16 +25,8 @@ namespace Lab3.Model
         {
             for (int i = 0; i < RawCount; i++)
                 for (int j = 0; j < NeedCount; j++)
-                    if (!Count[i, j].Equals(Double.NaN))
-                    {
-                        if (RawPotentials[i] + NeedPotentials[j] > Cost[i, j])
+                        if (RawPotentials[i] + NeedPotentials[j] - Cost[i, j] <= 0)
                             return false;
-                    }
-                    else
-                    {
-                        if (RawPotentials[i] + NeedPotentials[j] > Cost[i, j])
-                            return false;
-                    }
             return true;                    
         }
 

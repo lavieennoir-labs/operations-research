@@ -62,6 +62,8 @@ namespace Lab3.Model
                 {
                     GetNextPlan();
                     CountPotentials();
+                    if (IsOptimalSolution())
+                        break;
 
                     RawPotentialTables.Add(RawPotentials);
                     NeedPotentialTables.Add(NeedPotentials);
@@ -191,8 +193,7 @@ namespace Lab3.Model
 
             RowDelta = new List<double[]>();
             ColDelta = new List<double[]>();
-            while (UsedRaw.Where(i => i == false).Count() != 0 &&
-                UsedNeed.Where(i => i == false).Count() != 0)
+            while (Need.Any(i => i > 0))
             {
                 NextVogelDeltas();
                 UpdateCurrentCellVogel();
@@ -269,10 +270,12 @@ namespace Lab3.Model
 
             //check for last delta
             if (min2.Equals(Double.PositiveInfinity))
+            {
                 if (min.Equals(Double.PositiveInfinity))
                     return -1;
                 else
                     return 0;
+            }
 
             return min2 - min;
         }

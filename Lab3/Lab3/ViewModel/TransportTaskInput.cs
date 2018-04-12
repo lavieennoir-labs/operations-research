@@ -88,9 +88,14 @@ namespace Lab3.ViewModel
             };
         }
 
+        public static bool UseMyInput = true;
+
         public TransportTaskInput()
         {
-            GenerateMyInput();
+            if (UseMyInput)
+                GenerateMyInput();
+            else
+                GenerateTestInput();
         }
     }
 }
