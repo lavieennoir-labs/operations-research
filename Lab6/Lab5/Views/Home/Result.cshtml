@@ -1,0 +1,174 @@
+﻿@model Lab5.Models.GomoriResultModel
+@{
+    ViewBag.Title = "Результати";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2>@ViewBag.Title</h2>
+        <hr />
+        @if (Model.CurrentStage == Model.StageCount - 1)
+        {
+        <h4>Результат</h4>
+        }
+        else
+        {
+        <h4>Крок @(Model.CurrentStage + 1)</h4>
+        }
+        <p>
+            Конденсований вузол: @Model.CurrentCombinedVertex.ToString()
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Матриця суміжності графу</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="dist">
+                    <tr>
+                        <th></th>
+                        @for (int i = 0; i < Model.CurrentFlowMarixNodes.Count(); i++)
+                        {
+                            <th>@(Model.CurrentFlowMarixNodes[i].ToString())</th>
+                        }
+                    </tr>
+                    @for (int i = 0; i < Model.CurrentFlowMarixNodes.Count(); i++)
+                    {
+                    <tr>
+                        <th>@(Model.CurrentFlowMarixNodes[i].ToString())</th>
+                        @for (int j = 0; j < Model.CurrentFlowMarixNodes.Count(); j++)
+                        {
+                        <td>
+                            @if (Double.IsNaN(Model.CurrentFlowMarixes[i, j]) || i == j)
+                            {
+                                @("-")
+                            }
+                            else
+                            {
+                                @Model.CurrentFlowMarixes[i, j]
+                            }
+                        </td>
+                        }
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>  
+
+        <hr/>
+        <h4>Поточний розріз</h4>
+        <p>S вузол: @(Model.CurrentMinCut.S.Group[0].Id)</p>
+        <p>T вузол: @(Model.CurrentMinCut.T.Group[0].Id)</p>
+        <p>Пропускна здатність = @(Model.CurrentMinCut.Flow)</p>
+        <p>
+            X = {
+            @foreach(var vert in Model.CurrentMinCut.X)
+            {
+                @(vert.ToString() + " ")
+            }
+            }
+        </p>
+        <p>
+            X̅ = {
+            @foreach(var vert in Model.CurrentMinCut.Y)
+            {
+                @(vert.ToString() + " ")
+            }
+            }
+        </p>
+        <hr />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Матриця дерева розрізів</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="dist">
+                    <tr>
+                        <th></th>
+                        @for (int i = 0; i < Model.CurrentTreeMarixNodes.Count(); i++)
+                        {
+                            <th>@(Model.CurrentTreeMarixNodes[i].ToString())</th>
+                        }
+                    </tr>
+                    @for (int i = 0; i < Model.CurrentTreeMarixNodes.Count(); i++)
+                    {
+                    <tr>
+                        <th>@(Model.CurrentTreeMarixNodes[i].ToString())</th>
+                        @for (int j = 0; j < Model.CurrentTreeMarixNodes.Count(); j++)
+                        {
+                        <td>
+                            @if (Double.IsNaN(Model.CurrentTreeMarixes[i, j]) || i == j)
+                            {
+                                @("-")
+                            }
+                            else
+                            {
+                                @Model.CurrentTreeMarixes[i, j]
+                            }
+                        </td>
+                        }
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>        
+    </div>
+
+    <nav aria-label="..." style="justify-content: center; align-items: center; display: flex;">
+        <ul class="pagination">
+            @if(Model.CurrentStage == 0)
+                                    {
+                <li class="disabled">
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("Result", routeValues: new {
+                            currentStage = Model.CurrentStage - 1
+                        })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+
+            @for (int i = 0; i < Model.StageCount; i++)
+            {
+                if(Model.CurrentStage == i)
+                {
+                    <li class="active">
+                        <a href="#">@(i + 1) <span class="sr-only">(current)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Result", routeValues: new {
+                            currentStage = i
+                        })">@(i + 1)</a></li>
+                }
+            }
+             
+
+            @if (Model.CurrentStage == Model.StageCount - 1)
+            {
+                <li class="disabled">
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("Result", routeValues: new {
+                            currentStage = Model.CurrentStage + 1
+                        })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
