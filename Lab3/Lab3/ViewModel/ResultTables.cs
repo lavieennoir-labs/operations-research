@@ -37,7 +37,7 @@ namespace Lab3.ViewModel
         {
             get
             {
-                return totalSum;
+                return totalSum;                
             }
             set
             {
