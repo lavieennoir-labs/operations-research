@@ -159,7 +159,7 @@ namespace Lab1.Model
         public void UpdateMarkingRelationsDual()
         {
             for (int i = 0; i < A.GetLength(1) - 1; i++)
-                MarkingRelationsDual[i] = A[MainRow, i] >= 0 || A[B.Length - 1, i].Equals(0)  ?
+                MarkingRelationsDual[i] = A[MainRow, i] > 0 || A[B.Length - 1, i].Equals(0)  ?
                     Double.PositiveInfinity : -A[B.Length - 1, i] / A[MainRow, i];
         }
         public int GetMainColDual()
@@ -199,7 +199,7 @@ namespace Lab1.Model
         public void UpdateMarkingRelations()
         {
             for (int i = 0; i < B.Length; i++)
-                MarkingRelations[i] = A[i, MainCol] <= 0 ? Double.PositiveInfinity : Math.Abs(B[i] / A[i, MainCol]);
+                MarkingRelations[i] = A[i, MainCol] <= 0.001 ? Double.PositiveInfinity : Math.Abs(B[i] / A[i, MainCol]);
         }
 
 
@@ -260,7 +260,12 @@ namespace Lab1.Model
                 return B[GetMainRowDual()] >= 0;
             }
             else
-                return A[B.Length - 1, GetMainCol()] >= 0;
+            {
+                for (int i = 0; i < B.Length - 1; i++)
+                    if (A[B.Length - 1, i] < 0)
+                        return false;
+                return true;
+            }
         }
         //xstatic int flag = 0;
         
