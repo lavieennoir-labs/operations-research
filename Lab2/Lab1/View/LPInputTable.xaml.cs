@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab1.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace Lab1.View
     {
         public LPInputTable()
         {
-
+            InitializeComponent();
         }
 
         private void AddLimitClick(object sender, RoutedEventArgs e)
@@ -32,30 +33,34 @@ namespace Lab1.View
         	if(LimitNames.Count() >= MaxLimitCount)
         		return;
             LimitNames.Add(LimitNames.First()[0].ToString() + LimitNames.Count());
-            for(int i = 0; i < Coefs.Count(); i++)
-            	Coefs[i].Add(0);
+            LimitValues.Add(new Limit{Value=0, Sign="<="});
+            Coefs.Add(new ObservableCollection<double>(new double[VarNames.Count()]));
         }
         private void RemoveLimitClick(object sender, RoutedEventArgs e)
         {
         	if(LimitNames.Count() <= MinLimitCount)
         		return;
             LimitNames.RemoveAt(LimitNames.Count() - 1);
-            for(int i = 0; i < Coefs.Count(); i++)
-            	Coefs[i].RemoveAt(Coefs[i].Count() - 1);
+            LimitValues.RemoveAt(LimitValues.Count() - 1);
+            Coefs.RemoveAt(LimitNames.Count() - 1);
         }
         private void AddVarClick(object sender, RoutedEventArgs e)
         {
         	if(VarNames.Count() >= MaxVarCount)
         		return;
             VarNames.Add(VarNames.First()[0].ToString() + VarNames.Count());
-            Coefs.Add(new ObservableCollection(new double[LimitNames.Count()]));
+            VarValues.Add(new Var { Value = 0 });
+            for (int i = 0; i < Coefs.Count(); i++)
+                Coefs[i].Add(0);
         }
         private void RemoveVarClick(object sender, RoutedEventArgs e)
         {
         	if(VarNames.Count() <= MinVarCount)
         		return;
             VarNames.RemoveAt(VarNames.Count() - 1);
-            Coefs.RemoveAt(VarNames.Count() - 1);
+            VarValues.RemoveAt(VarValues.Count() - 1);
+            for (int i = 0; i < Coefs.Count(); i++)
+                Coefs[i].RemoveAt(Coefs[i].Count() - 1);
         }
 
 
@@ -75,17 +80,16 @@ namespace Lab1.View
             DependencyProperty.Register("Coefs", typeof(ObservableCollection<ObservableCollection<double>>), typeof(LPInputTable), new PropertyMetadata(new ObservableCollection<ObservableCollection<double>>()));
 
 
-        public ObservableCollection<double> LimitValues
+        public ObservableCollection<Limit> LimitValues
         {
-            get { return (ObservableCollection<double>)GetValue(LimitValuesProperty); }
+            get { return (ObservableCollection<Limit>)GetValue(LimitValuesProperty); }
             set { SetValue(LimitValuesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for LimitValues.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LimitValuesProperty =
-            DependencyProperty.Register("LimitValues", typeof(ObservableCollection<double>), typeof(LPInputTable), new PropertyMetadata(new ObservableCollection<double>()));
-
-
+            DependencyProperty.Register("LimitValues", typeof(ObservableCollection<Limit>), typeof(LPInputTable), new PropertyMetadata(new ObservableCollection<Limit>()));
+        
         public ObservableCollection<string> LimitNames
         {
             get { return (ObservableCollection<string>)GetValue(LimitNamesProperty); }
@@ -106,15 +110,15 @@ namespace Lab1.View
         public static readonly DependencyProperty VarNamesProperty =
             DependencyProperty.Register("VarNames", typeof(ObservableCollection<string>), typeof(LPInputTable), new PropertyMetadata(new ObservableCollection<string>()));
 
-        public ObservableCollection<double> VarValues
+        public ObservableCollection<Var> VarValues
         {
-            get { return (ObservableCollection<double>)GetValue(VarValuesProperty); }
+            get { return (ObservableCollection<Var>)GetValue(VarValuesProperty); }
             set { SetValue(VarValuesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for VarValues.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VarValuesProperty =
-            DependencyProperty.Register("VarValues", typeof(ObservableCollection<double>), typeof(LPInputTable), new PropertyMetadata(new ObservableCollection<double>()));
+            DependencyProperty.Register("VarValues", typeof(ObservableCollection<Var>), typeof(LPInputTable), new PropertyMetadata(new ObservableCollection<Var>()));
 
     }
 }

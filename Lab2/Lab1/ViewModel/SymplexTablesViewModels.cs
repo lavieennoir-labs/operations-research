@@ -84,7 +84,7 @@ namespace Lab1.ViewModel
 
                 var sb = new StringBuilder();
                 sb.Append("Було визначено, що максимальний прибуток (F = ").
-                    Append(CurrentTable.B[CurrentTable.B.Length - 1]).
+                    Append(CurrentTable.B[CurrentTable.B.Length - 1].ToString("N2")).
                     Append(" ум. од.) може бути досягнутий ");
                 if (products.Where(i => i > 0).Count() > 0)
                 {
@@ -92,8 +92,8 @@ namespace Lab1.ViewModel
                         Append(Environment.NewLine);
                     for (int i = 0; i < products.Length; i++)
                         if (products[i] != 0)
-                            sb.Append(products[i]).
-                                Append(" одииниць продукції B").
+                            sb.Append(products[i].ToString("N2")).
+                                Append(" одиниць продукції B").
                                 Append(i + 1).
                                 Append(". ");
                 }
@@ -105,8 +105,8 @@ namespace Lab1.ViewModel
                     sb.Append(Environment.NewLine).Append("За таких умов лишаться не використані: ");
                     for (int i = 0; i < raws.Length; i++)
                         if (raws[i] != 0)
-                            sb.Append(raws[i]).
-                                Append(" одииниць сировини А").
+                            sb.Append(raws[i].ToString("N2")).
+                                Append(" одиниць сировини А").
                                 Append(i + 1).
                                 Append(". ");
                 }

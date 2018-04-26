@@ -11,46 +11,79 @@ namespace Lab1.ViewModel
 {
     class InputViewModel : ViewModel
     {
-        public int LimitCount { get; set; }
-        public int VarCount { get; set; }
-        
+        public int RawCount { get; set; }
+        public int ProductCount { get; set; }
+
+        public ObservableCollection<HorizontalListItem> Raw { get; set; }        
+        public ObservableCollection<HorizontalListItem> Products { get; set; }
+
         public string[] RawNames { get; set; }
-        public ObservableCollection<double> Limits { get; set; }
-        public ObservableCollection<string> LimitNames { get; set; }
-        public ObservableCollection<double> Vars { get; set; }
-        public ObservableCollection<string> VarNames { get; set; }
         public string[] ProductNames { get; set; }
 
-        public ObservableCollection<ObservableCollection<double>> Coefs { get; set; }
+        public ObservableCollection<ObservableCollection<double>> ProductCost { get; set; }
 
         public InputViewModel()
         {
-            LimitCount = 5;
-            VarCount = 2;
-            Limits = new ObservableCollection<double>
+            RawCount = 4;
+            ProductCount = 4;
+
+            Raw = new ObservableCollection<HorizontalListItem>(new List<HorizontalListItem>
             {
-                50, 80, 90, 10, 105
-            };
-            Vars = new ObservableCollection<double>
+                new HorizontalListItem()
+                {
+                    Header = "A1",
+                    Value = 1260
+                },
+                new HorizontalListItem()
+                {
+                    Header = "A2",
+                    Value = 900
+                },
+                new HorizontalListItem()
+                {
+                    Header = "A3",
+                    Value = 530
+                },
+                new HorizontalListItem()
+                {
+                    Header = "A4",
+                    Value = 210
+                },
+            });
+
+            Products = new ObservableCollection<HorizontalListItem>(new List<HorizontalListItem>
             {
-                -3, -5
-            };
-            LimitNames = new ObservableCollection<string>
-            {
-                "A1", "A2","A3","A4", "A5"
-            };
-            VarNames = new ObservableCollection<string>
-            {
-                "B1", "B2"
-            };
-           
-            Coefs = new ObservableCollection<ObservableCollection<double>>(
+                new HorizontalListItem()
+                {
+                    Header = "B1",
+                    Value = 8
+                },
+                new HorizontalListItem()
+                {
+                    Header = "B2",
+                    Value = 10
+                },
+                new HorizontalListItem()
+                {
+                    Header = "B3",
+                    Value = 12
+                },
+                new HorizontalListItem()
+                {
+                    Header = "B4",
+                    Value = 18
+                },
+            });
+
+            RawNames = new string[] { "A1", "A2", "A3", "A4" };
+            ProductNames = new string[] { "B1", "B2", "B3", "B4" };
+
+            ProductCost = new ObservableCollection<ObservableCollection<double>>(
                 new List<ObservableCollection<double>> { 
-                new ObservableCollection<double>(new List<double> { 1, 0 }),
-                new ObservableCollection<double>(new List<double> { 0, 1 }),
-                new ObservableCollection<double>(new List<double> { 3, -2}),
-                new ObservableCollection<double>(new List<double> { 1, -2}),
-                new ObservableCollection<double>(new List<double> { 1, 1})
+                new ObservableCollection<double>(new List<double> { 2, 4, 6, 8 }),
+                new ObservableCollection<double>(new List<double> { 2, 2, 0, 6 }),
+                new ObservableCollection<double>(new List<double> { 0, 1, 1, 2}),
+                new ObservableCollection<double>(new List<double> { 1, 0, 1, 0})
                 });
         }
     }

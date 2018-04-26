@@ -30,33 +30,15 @@ namespace Lab1.View.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //convert current data to to canoniical form
-            var canonicalForm = new CanonicalFormConverter().Convert(this.DataContext as InputViewModel);
+            var vm = this.DataContext as InputViewModel;
+            vm.VarCount = InputTable.VarNames.Count();
+            vm.LimitCount = InputTable.LimitNames.Count();
+
+            var canonicalForm = new CanonicalFormConverter().Convert(vm);
 
             var pageManager = Application.Current.MainWindow.DataContext as PageManager;
             pageManager.CurrentPage = new CanonicalForm();
             pageManager.CurrentPage.DataContext = canonicalForm;
         }
-
-        private void matrix_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            var tb = (e.EditingElement as TextBox);
-            if (!IsValidReading(tb.Text))
-                tb.Text = tmp.ToString();
-        }
-
-        bool IsValidReading(string value)
-        {
-            return true;
-        //    if (!Double.TryParse(value, out Double v))
-        //        return false;
-        //    return !v.Equals(Double.NegativeInfinity) && !v.Equals(Double.PositiveInfinity) && v >= 0;
-        }
-
-        private void matrix_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            var m = (DataContext as InputViewModel).ProductCost;
-            tmp = m[matrix.SelectedIndex][e.Column.DisplayIndex];
-        }
-        double tmp;
     }
 }

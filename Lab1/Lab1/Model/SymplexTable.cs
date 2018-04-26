@@ -64,29 +64,20 @@ namespace Lab1.Model
             get
             {
                 string[,] table = new string[B.Length, A.GetLength(1) + 2];
-
                 for (int i = 0; i < Basis.Length; i++)
                     table[i, 0] = Basis[i] == A.GetLength(1) - 1 ? "F" : "X" + (Basis[i] + 1);
                 for (int i = 0; i < B.Length; i++)
                     table[i, 1] = B[i].ToString("N2");
-
-                if (IsOptimalPlan())
-                    for (int i = 0; i < MarkingRelations.Length - 1; i++)
-                        table[i, table.GetLength(1) - 1] = "";
-                else
-                {
-                    for (int i = 0; i < MarkingRelations.Length - 1; i++)
-                        table[i, table.GetLength(1) - 1] = MarkingRelations[i].ToString("N2");
-
-                    //last Marking relation for F is empty
-                    table[B.Length - 1, table.GetLength(1) - 1] = "";
-                }
+                for (int i = 0; i < MarkingRelations.Length - 1; i++)
+                    table[i, table.GetLength(1) - 1] = MarkingRelations[i].ToString("N2");
+                //last Marking relation for F is empty
+                table[B.Length - 1, table.GetLength(1) - 1] = "";
 
                 for (int i = 0; i < B.Length; i++)
                     for (int j = 2; j < table.GetLength(1) - 1; j++)
                         table[i, j] = A[i, j - 2].ToString("N2");
 
-                return table;
+            return table;
             }
         }
 
@@ -95,16 +86,30 @@ namespace Lab1.Model
             double min = Double.MaxValue;
             int minIdx = -1;
             //search lowest negative coef
-            for(int i = 0; i < A.GetLength(1); i++)
+            for(int i = 0; i < A.GetLength(1) - A.GetLength(0); i++)
                 if(min > A[B.Length - 1,i])
                 {
                     min = A[B.Length - 1, i];
                     minIdx = i;
                 }
-            if (minIdx == -1) throw new InvalidOperationException("Всі коефіцієнти у останньому рядку додатні.");
+            if (minIdx == -1) throw new InvalidOperationException("There no optimal plan for input data.");
             return minIdx;
         }
 
+        public int GetMainRow()
+        {
+            double min = Double.MaxValue;
+            int minIdx = -1;
+            //search lowest Marking relation
+            for (int i = 0; i < MarkingRelations.Length-1; i++)
+                if (min > MarkingRelations[i])
+                {
+                    min = MarkingRelations[i];
+                    minIdx = i;
+                }
+            if (minIdx == -1) throw new InvalidOperationException("There no optimal plan for input data.");
+            return minIdx;
+        }
 
         /// <summary>
         /// Caclulate marking relations based on main row
@@ -115,22 +120,12 @@ namespace Lab1.Model
                 MarkingRelations[i] = A[i, MainCol] - 0 < 0.0001 ? Double.PositiveInfinity : B[i] / A[i, MainCol];
         }
 
-
-        public int GetMainRow()
+        /// <summary>
+        /// Check wether current plan is optimal
+        /// </summary>
+        public bool IsOptimalPlan()
         {
-            double min = Double.MaxValue;
-            int minIdx = -1;
-            //search lowest Marking relation
-            for (int i = 0; i < MarkingRelations.Length - 1; i++)
-                if (min > MarkingRelations[i])
-                {
-                    min = MarkingRelations[i];
-                    minIdx = i;
-                }
-            if (minIdx == -1)
-                throw new InvalidOperationException(
-                    "Задача не містить скінченного оптимуму.");
-            return minIdx;
+            return A[B.Length - 1, GetMainCol()] >= 0;
         }
 
         public void ApplyRectangleRule(SymplexTable old)
@@ -160,16 +155,6 @@ namespace Lab1.Model
             }
 
         }
-
-        /// <summary>
-        /// Check wether current plan is optimal
-        /// </summary>
-        public bool IsOptimalPlan()
-        {
-            return A[B.Length - 1, GetMainCol()] >= 0;
-        }
-
-        
 
         public SymplexTable Clone()
         {
