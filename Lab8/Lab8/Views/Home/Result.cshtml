@@ -1,0 +1,165 @@
+﻿@model Lab8.Models.ResultModel
+@{
+    ViewBag.Title = "Результат";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h2>@ViewBag.Title</h2>
+        <hr />
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Вхідна платіжна матриця</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="Matrix">
+
+                    @for (int i = 0; i < Model.MatrixSnapshots[0].Length; i++)
+                    {
+                    <tr>
+                        @for (int j = 0; j < Model.MatrixSnapshots[0][0].Length; j++)
+                        {
+                        <td style="width: 100px">
+                            @Html.DisplayFor(m => m.MatrixSnapshots[0][i][j])
+                        </td>
+                        }
+                        <td></td>
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <p>
+            Стратегія гравця А: @Model.StartLowerCostRowIdx
+            <br/>
+            <i>α</i> = @Model.StartLowerCost
+        </p>
+        <p>
+            Стратегія гравця B: @Model.StartUpperCostColIdx
+            <br/>
+            <i>β</i> = @Model.StartUpperCost
+        </p>
+
+
+        @if (Model.HavePureStrategySolution)
+        {
+        <p>
+            <i>α</i> = <i>β</i>, отже існує розв'язок гри у чистих стратегіях.
+        </p>
+        <p>
+            <i>α</i> = <i>β</i> = Ціна гри <i>v</i> = @Model.GameValue
+        </p>
+        <p>
+            Оптимальною стратегією гравця А є:
+            <br/>
+            <i>x</i> = @Model.AOptimalStrategyString
+        </p>
+        <p>
+            Оптимальною стратегією гравця B є:
+            <br/>
+            <i>x</i> = @Model.BOptimalStrategyString
+        </p>
+        }
+        else
+        {
+        <p>
+            <i>α</i> ≠ <i>β</i>, отже розв'язуємо гру у змішаних стратегіях.
+        </p>
+        <hr/>
+        <p>
+            Зменшуємо розмірінсть матриці:
+        </p>
+            for (int k = 1; k < Model.MatrixSnapshots.Count; k++)
+            {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Зменшена матриця #@k</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="Matrix">
+
+                        @for (int i = 0; i < Model.MatrixSnapshots[k].Length; i++)
+                        {
+                        <tr>
+                            @for (int j = 0; j < Model.MatrixSnapshots[k][0].Length; j++)
+                            {
+                            <td style="width:100px">
+                                @Html.DisplayFor(m => m.MatrixSnapshots[k][i][j])
+                            </td>
+                            }
+                            <td></td>
+                        </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            }
+
+        <p>
+            Знову перевіряємо, чи можна розв'язати гру у чистих стратегіях.
+        </p>
+        <p>
+            Стратегія гравця А: @Model.ResultLowerCostRowIdx
+            <br/>
+            <i>α</i> = @Model.ResultLowerCost
+        </p>
+        <p>
+            Стратегія гравця B: @Model.ResultUpperCostColIdx
+            <br/>
+            <i>β</i> = @Model.ResultUpperCost
+        </p>
+
+            if (Model.ShrinkedHavePureStrategySolution)
+            {
+                <p>
+                    <i>α</i> = <i>β</i>, отже існує розв'язок гри у чистих стратегіях.
+                </p>
+                <p>
+                    <i>α</i> = <i>β</i> = Ціна гри <i>v</i> = @Model.GameValue
+                </p>
+                <p>
+                    Оптимальною стратегією гравця А є:
+                    <br/>
+                    <i>x</i> = @Model.AOptimalStrategyString
+                </p>
+                <p>
+                    Оптимальною стратегією гравця B є:
+                    <br/>
+                    <i>y</i> = @Model.BOptimalStrategyString
+                </p>
+            }
+            else
+            {
+                <p>
+                    <i>α</i> ≠ <i>β</i>, отже формуємо задачу ЛП та розв'язуємо її.
+                </p>
+                for(int i = 0; i < Model.SymplexTableSnapshots.Count; i++)
+                {
+                    Html.RenderPartial("_SymplexTablePartial", Model.SymplexTableSnapshots[i]);
+                }
+                <hr/>
+                <p>
+                    З результуючою симплекс-таблиці отримуємо розв’язок для двоїстої задачі.
+                </p>
+                <p>
+                    <i>F</i> = @Model.SymplexTableSnapshots.Last().FreeMembers.Last().ToString("N2")
+                </p>
+                <p>
+                    Ціна гри <i>v</i> = 1 / <i>F</i> = @Model.GameValue.ToString("N2")
+                </p>
+                <p>
+                    Оптимальною стратегією гравця А є:
+                    <br/>
+                    <i>x</i> = @Model.AOptimalStrategyString
+                </p>
+                <p>
+                    Оптимальною стратегією гравця B є:
+                    <br/>
+                    <i>y</i> = @Model.BOptimalStrategyString
+                </p>
+                
+            }
+        }
+    </div>
+</div>

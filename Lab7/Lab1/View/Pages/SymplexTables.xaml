@@ -1,0 +1,85 @@
+﻿<Page x:Class="Lab1.View.Pages.SymplexTables"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Lab1.View.Pages"
+      xmlns:control="clr-namespace:Lab1.View.Controls"
+      xmlns:dataGrid2D="http://gu.se/DataGrid2D"
+      mc:Ignorable="d" 
+      d:DesignHeight="525" d:DesignWidth="525"
+      Background="White"
+      Title="SymplexTables">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <control:MenuControl Grid.Row="0"/>
+
+        
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Симплекс-таблиця #" FontSize="14"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentTableViewIdx}" FontSize="14"/>
+            </Grid>
+            <DataGrid Grid.Row="2" Name="matrix" FontSize="14" Padding="8"
+                      dataGrid2D:ItemsSource.Array2D="{Binding CurrentTableData}" IsReadOnly="True"
+                      dataGrid2D:ItemsSource.ColumnHeadersSource="{Binding TableHeaders}"
+                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False"
+                      CanUserResizeRows="False" CanUserSortColumns="False"/>
+            <Grid Grid.Row="3"  HorizontalAlignment="Center" Margin="0,16,0,0" Visibility="{Binding CurrentTableIsNotLast, Converter={StaticResource BoolToVisConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Text="Головний стовпець: " FontSize="14"/>
+                <TextBlock Grid.Column="1" Text="{Binding MainColumn}" FontSize="14"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Головний рядок має базис " FontSize="14"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding MainRow}" FontSize="14"/>
+            </Grid>
+            <Grid Grid.Row="3"  HorizontalAlignment="Center" Margin="0,16,0,0" Visibility="{Binding CurrentTableIsLast, Converter={StaticResource BoolToVisConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Результат: " FontSize="16" TextAlignment="Center"/>
+                <TextBlock Grid.Row="1" Text="{Binding ResultText}" TextWrapping="Wrap" TextAlignment="Justify" Margin="64,8" FontSize="16"/>
+            </Grid>
+            <Grid Grid.Row="4" Margin="0,16">
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="&lt;&lt;" Grid.Column="0" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}" IsEnabled="{Binding CurrentTableIsNotFirst}"
+                            Margin="8,8,8,8" Padding="8" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" FontFamily="Franklin Gothic Heavy"  Click="ButtonFirst_Click"/>
+                <Button Content="&lt;" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}" IsEnabled="{Binding CurrentTableIsNotFirst}"
+                            Margin="8,8,8,8" Padding="8" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" FontFamily="Franklin Gothic Heavy"  Click="ButtonPrev_Click"/>
+                <Button Content="&gt;" Grid.Column="3"  Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}" IsEnabled="{Binding CurrentTableIsNotLast}"
+                            Margin="8,8,8,8" Padding="8" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" FontFamily="Franklin Gothic Heavy"  Click="ButtonNext_Click"/>
+                <Button Content="&gt;&gt;" Grid.Column="4" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}" IsEnabled="{Binding CurrentTableIsNotLast}"
+                            Margin="8,8,8,8" Padding="8" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" FontFamily="Franklin Gothic Heavy"  Click="ButtonLast_Click"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

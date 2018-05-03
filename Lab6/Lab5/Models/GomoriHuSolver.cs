@@ -390,7 +390,7 @@ namespace Lab5.Models
         /// <returns>
         /// List of vertexes of path
         /// </returns>
-        public List<Vertex> FindPath(List<Vertex> set, Vertex s, Vertex t)
+        public static List<Vertex> FindPath(List<Vertex> set, Vertex s, Vertex t)
         {
             foreach (Vertex v in set)
             {
@@ -491,7 +491,26 @@ namespace Lab5.Models
                     result[toVertIdx, i] = e.C;
                 }
             }
+            //search other path
+            for(int i = 0; i < set.Count; i++)
+                for(int j = 0; j < set.Count; j++)
+                    if(result[i, j].Equals(0) && i != j)
+                    {
+                        var path = FindPath(set, set[i], set[j]);
+                        var v = (Vertex)set[j].Clone();
+                        var flow = Double.PositiveInfinity;
+                        while (v.Parent != null)
+                        {
+                            flow = Math.Min(flow, 
+                                v.Parent.Edges.SingleOrDefault(e => e.ToVertex.ToString() == v.ToString()).C);
+
+                            v = v.Parent;
+                        }
+                        result[i, j] = flow;
+                    }
+
             return result;
+
         }
 
         /// <summary>

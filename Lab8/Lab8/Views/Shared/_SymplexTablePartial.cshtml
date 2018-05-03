@@ -1,0 +1,38 @@
+﻿@model Lab8.Models.SymplexTableModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Симплекс таблиця #@Model.Num</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table" id="Matrix">
+            <tr>
+                <th rowspan="2">Базис</th>
+                <th rowspan="2">Вільний член</th>
+                <th colspan="@Model.VariableNames.Length">Змінні</th>
+                <th rowspan="2">Оціночні відношення</th>
+            </tr>
+            <tr>
+                @for (int i = 0; i < Model.VariableNames.Length; i++)
+                {
+                    <th>@Model.VariableNames[i]</th>
+                }
+            </tr>
+            @for (int i = 0; i < Model.FreeMembers.Length; i++)
+            {
+                <tr>
+                    <th>@Model.BasisNames[i]</th>
+                    <td>@Model.FreeMembers[i].ToString("N2")</td>
+                    @for (int j = 0; j < Model.VariableNames.Length; j++)
+                    {
+                        <td style="@(i == Model.MainRowIdx || j == Model.MainColIdx ?
+                                    "background-color: #f9f9f9" : "")">
+                        @Model.Coefs[i][j].ToString("N2")
+                        </td>
+                    }
+                    <th>@Model.MeaurementRelations[i]</th>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
